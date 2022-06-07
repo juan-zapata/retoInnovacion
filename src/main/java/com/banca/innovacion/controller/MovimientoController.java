@@ -1,7 +1,5 @@
 package com.banca.innovacion.controller;
 
-import com.banca.innovacion.dto.MovimientoDto;
-import com.banca.innovacion.model.Cuenta;
 import com.banca.innovacion.model.Movimiento;
 import com.banca.innovacion.services.MovimientoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +13,11 @@ import java.util.List;
 @RequestMapping("/banco")
 public class MovimientoController {
 
-    @Autowired
     MovimientoService movimientoService;
+
+    public MovimientoController(MovimientoService movimientoService) {
+        this.movimientoService = movimientoService;
+    }
 
     @PostMapping("/realizarmovimiento")
     public ResponseEntity<?> save(@RequestBody Movimiento movimiento){
@@ -31,7 +32,7 @@ public class MovimientoController {
     }
 
     @GetMapping("/movimiento/{cuenta}")
-    public ResponseEntity<Movimiento> getByNombre(@PathVariable("cuenta") Long cuenta){
+    public ResponseEntity<Boolean> getByNombre(@PathVariable("cuenta") Long cuenta){
         boolean producto = movimientoService.existCuenta(cuenta);
         return new ResponseEntity(producto, HttpStatus.OK);
     }
